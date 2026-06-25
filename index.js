@@ -1,11 +1,10 @@
 import 'dotenv/config';
-import db from ".db/conn.js"
 import express from "express";
+import connDB from "./db/conn.js"
+import grades from "./routes/grades.js";
 
 const PORT = 3000;
 const app = express();
-
-import grades from "./routes/grades.js";
 
 app.use(express.json());
 
@@ -23,5 +22,5 @@ app.use((err, _req, res, next) => {
 // Start the Express server
 app.listen(PORT, () => {
   console.log(`Server is running on port: ${PORT}`);
-  db();
+  connDB();
 });
