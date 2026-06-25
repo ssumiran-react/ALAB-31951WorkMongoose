@@ -4,20 +4,21 @@ import GradeModel from '../models/GradeModel.js';
 
 const router = express.Router();
 
-
 // Create a single grade entry
 router.post("/", async (req, res) => {
-  let collection = await db.collection("grades");
+  // let collection = await db.collection("grades");
+  // let newDocument = req.body;
+
+  // // rename fields for backwards compatibility
+  // if (newDocument.student_id) {
+  //   newDocument.learner_id = newDocument.student_id;
+  //   delete newDocument.student_id;
+  // }
+  //let result = await collection.insertOne(newDocument);
+
   let newDocument = req.body;
-
-  // rename fields for backwards compatibility
-  if (newDocument.student_id) {
-    newDocument.learner_id = newDocument.student_id;
-    delete newDocument.student_id;
-  }
-
-  let result = await collection.insertOne(newDocument);
-  res.send(result).status(204);
+  const result = await GradeModel.insertOne(newDocument) ;
+  res.json(result).status(204);
 });
 
 // Get a single grade entry
