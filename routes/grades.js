@@ -33,28 +33,30 @@ router.get("/:id", async (req, res) => {
 
 // Add a score to a grade entry
 router.patch("/:id/add", async (req, res) => {
-  let collection = await db.collection("grades");
-  let query = { _id: new ObjectId(req.params.id) };
+  // let collection = await db.collection("grades");
+  // let query = { _id: new ObjectId(req.params.id) };
 
-  let result = await collection.updateOne(query, {
-    $push: { scores: req.body }
-  });
+  // let result = await collection.updateOne(query, {
+  //   $push: { scores: req.body }
+  // });
 
+  const result = await GradeModel.updateOne({ _id: req.params.id }, {$push: { scores: req.body }}) ;
   if (!result) res.send("Not found").status(404);
-  else res.send(result).status(200);
+  else res.json(result).status(200);
 });
 
 // Remove a score from a grade entry
 router.patch("/:id/remove", async (req, res) => {
-  let collection = await db.collection("grades");
-  let query = { _id: new ObjectId(req.params.id) };
+  // let collection = await db.collection("grades");
+  // let query = { _id: new ObjectId(req.params.id) };
 
-  let result = await collection.updateOne(query, {
-    $pull: { scores: req.body }
-  });
+  // let result = await collection.updateOne(query, {
+  //   $pull: { scores: req.body }
+  // });
 
+  const result = await GradeModel.updateOne({ _id: req.params.id }, {$pull: { scores: req.body }}) ;
   if (!result) res.send("Not found").status(404);
-  else res.send(result).status(200);
+  else res.json(result).status(200);
 });
 
 // Delete a single grade entry
@@ -111,13 +113,14 @@ router.get("/class/:id", async (req, res) => {
 
 // Update a class id
 router.patch("/class/:id", async (req, res) => {
-  let collection = await db.collection("grades");
-  let query = { class_id: Number(req.params.id) };
+  // let collection = await db.collection("grades");
+  // let query = { class_id: Number(req.params.id) };
 
-  let result = await collection.updateMany(query, {
-    $set: { class_id: req.body.class_id }
-  });
+  // let result = await collection.updateMany(query, {
+  //   $set: { class_id: req.body.class_id }
+  // });
 
+  const result = await GradeModel.updateMany({ class_id: Number(req.params.id) }, {$set: { class_id: req.body.class_id }}) ;
   if (!result) res.send("Not found").status(404);
   else res.send(result).status(200);
 });
