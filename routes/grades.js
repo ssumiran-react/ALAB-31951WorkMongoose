@@ -16,8 +16,7 @@ router.post("/", async (req, res) => {
   // }
   //let result = await collection.insertOne(newDocument);
 
-  let newDocument = req.body;
-  const result = await GradeModel.insertOne(newDocument) ;
+  const result = await GradeModel.insertOne(req.body) ;
   res.json(result).status(204);
 });
 
@@ -41,7 +40,7 @@ router.patch("/:id/add", async (req, res) => {
   //   $push: { scores: req.body }
   // });
 
-  const result = await GradeModel.updateOne({ _id: req.params.id }, {$push: { scores: req.body }}) ;
+  const result = await GradeModel.findByIdAndUpdate(req.params.id, {$push: { scores: req.body }}) ;
   if (!result) res.send("Not found").status(404);
   else res.json(result).status(200);
 });
@@ -55,7 +54,7 @@ router.patch("/:id/remove", async (req, res) => {
   //   $pull: { scores: req.body }
   // });
 
-  const result = await GradeModel.updateOne({ _id: req.params.id }, {$pull: { scores: req.body }}) ;
+  const result = await GradeModel.findByIdAndUpdate(req.params.id, {$pull: { scores: req.body }}) ;
   if (!result) res.send("Not found").status(404);
   else res.json(result).status(200);
 });
@@ -66,7 +65,7 @@ router.delete("/:id", async (req, res) => {
   // let query = { _id: new ObjectId(req.params.id) };
   // let result = await collection.deleteOne(query);
   
-  const result = await GradeModel.deleteOne({_id: req.params.id});
+  const result = await GradeModel.findByIdAndDelete(req.params.id);
   if (!result) res.send("Not found").status(404);
   else res.json(result).status(200);
 });
@@ -95,7 +94,7 @@ router.delete("/learner/:id", async (req, res) => {
 
   // let result = await collection.deleteOne(query);
 
-  const result = await GradeModel.deleteOne({student_id: Number(req.params.id) });
+  const result = await GradeModel.findOneAndDelete({student_id: Number(req.params.id) });
   if (!result) res.send("Not found").status(404);
   else res.json(result).status(200);
 });
